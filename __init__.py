@@ -14,4 +14,4 @@ async def select_card(opsdroid, config, message):
     current_set = config['current_set']
     allcards = Card.where(set=current_set).all()
 
-    message.respond(f'{random.choice(allcards).name}')
+    await message.respond(f'{random.choice(allcards).name}')
