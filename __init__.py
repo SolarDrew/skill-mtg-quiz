@@ -16,3 +16,12 @@ async def select_card(opsdroid, config, message):
     allcards = Card.where(set=current_set).all()
 
     await message.respond(f'{random.choice(allcards).name}')
+
+
+@match_regex('show me (?P<cardname>.*)', case_sensitive=False)
+async def show_card(opsdroid, config, message):
+    match = message.regex.group
+    name = match('cardname')
+    card = Card.where(set=config['current_set']).where(name=name)[0]
+
+    await message.respond(card.image_url)
