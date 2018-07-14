@@ -22,6 +22,6 @@ async def select_card(opsdroid, config, message):
 async def show_card(opsdroid, config, message):
     match = message.regex.group
     name = match('cardname')
-    card = Card.where(set=config['current_set']).where(name=name)[0]
+    card = Card.where(set=config['current_set']).where(name=name).all()[0]
 
     await message.respond(card.image_url)
