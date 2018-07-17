@@ -17,7 +17,7 @@ def card_from_booster(mtgset):
         else:
             rarity = 'mythic rare'
 
-    card = Card.where(set=current_set).where(rarity=rarity)
+    card = Card.where(set=mtgset).where(rarity=rarity)
 
     return random.choice(cards.all()).name
 
