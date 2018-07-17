@@ -5,17 +5,41 @@ from opsdroid.matchers import match_regex, match_crontab
 from mtgsdk import Card
 
 
+def card_from_booster(mtgset):
+    r = random.randint(1, 14)
+    if r < 11:
+        rarity = 'common'
+    elif r < 14:
+        rarity = 'uncommon'
+    else:
+        if random.randint(1, 8) == 8:
+            rarity = 'rare'
+        else:
+            rarity = 'mythic rare'
+
+    card = Card.where(set=current_set).where(rarity=rarity)
+
+    return random.choice(cards.all()).name
+
+
 def setup(opsdroid):
     logging.info("Loaded MtG Bot")
 
 
 @match_regex('give me a card', case_sensitive=False)
-@match_crontab('0 9,11,13,15,17,19 * * *', timezone='Europe/London')
 async def select_card(opsdroid, config, message):
     current_set = config['current_set']
-    allcards = Card.where(set=current_set).all()
+    card = card_from_booster(current_set)
 
-    await message.respond(f'{random.choice(allcards).name}')
+    await message.respond(f'{card}')
+
+
+@match_crontab('0 9,11,13,15,17,19 * * *', timezone='Europe/London')
+async def auto_card(opsdroid, config, message):
+    current_set = config['current_set']
+    card = card_from_booster(current_set)
+
+    await message.respond(f'{card}')
 
 
 @match_regex('show me (?P<cardname>.*)', case_sensitive=False)
