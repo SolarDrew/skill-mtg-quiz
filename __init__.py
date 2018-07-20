@@ -1,6 +1,7 @@
 import random
 import logging
 
+from opsdroid.message import Message
 from opsdroid.matchers import match_regex, match_crontab
 from mtgsdk import Card
 
@@ -39,6 +40,14 @@ async def auto_card(opsdroid, config, message):
     current_set = config['current_set']
     card = card_from_booster(current_set)
 
+    # Get the default connector
+    connector = opsdroid.default_connector
+
+    # Get the default room for that connector
+    room = connector.default_room
+
+    # Create an empty message to respond to
+    message = Message("", None, room, connector)
     await message.respond(f'{card}')
 
 
