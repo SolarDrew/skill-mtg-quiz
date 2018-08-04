@@ -35,7 +35,8 @@ async def select_card(opsdroid, config, message):
     await message.respond(f'{card}')
 
 
-@match_crontab('0 9,11,13,15,17,19 * * *', timezone='Europe/London')
+# @match_crontab('0 9,11,13,15,17,19 * * *', timezone='Europe/London')
+@match_crontab('* * * * *', timezone='Europe/London')
 async def auto_card(opsdroid, config, message):
     current_set = config['current_set']
     card = card_from_booster(current_set)
@@ -47,7 +48,7 @@ async def auto_card(opsdroid, config, message):
     room = connector.default_room
 
     # Create an empty message to respond to
-    message = Message("", None, room, connector)
+    # message = Message("", None, room, connector)
     await message.respond(f'{card}')
 
 
