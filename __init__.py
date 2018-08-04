@@ -48,8 +48,8 @@ async def auto_card(opsdroid, config, message):
     room = connector.default_room
 
     # Create an empty message to respond to
-    # message = Message("", None, room, connector)
-    await message.respond(f'{card}')
+    message = Message("", None, room, connector)
+    await message.respond('This is a test, this should only get sent once') #f'{card}')
 
 
 @match_regex('show me (?P<cardname>.*)', case_sensitive=False)
